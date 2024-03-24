@@ -9,7 +9,7 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
 	// DYNAMIC VALUES
 	html = html.value ?? "No HTML set.";
 	fileName = fileName.value ?? "file";
-	format = format.value ?? "letter";
+	format = format.value ?? "a4";
 	zoom = zoom.value ?? "1";
 	orientation = orientation.value ?? "portrait";
 	margin = margin.value ?? "0";
@@ -83,32 +83,52 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
 			`Quality: ${quality}`
 	);
 
-    // CUSTOM CSS FOR DOWNLOAD BUTTON
-    const customCSS = `
-    body {
-        margin: 0!important;
-    }
-    button#download {
-        align-items: center;
-        background-color: rgb(35, 193, 218);
-        border: none;
-        border-radius: 8px;
-        box-sizing: border-box;
-        color: rgb(255, 255, 255);
-        cursor: pointer;
-        display: block;
-        font-family: Inter, -apple-system, "system-ui", Roboto, sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        margin: 20px auto;
-        padding: 8px 16px;
-        width: fit-content;
-        text-decoration: none;
-    }
-    button#download:hover {
-        background-color: #1eb6ce;
-    }
-    `;
+	const customCSS = `
+	body {
+	  margin: 0!important
+	}
+  
+	button#download {
+	  position: fixed;
+	  border-radius: 0.5rem;
+	  font-size: 14px;
+	  font-weight: 600;
+	  line-height: 1.5rem;
+	  color: #0d0d0d;
+	  border: none;
+	  font-family: 'Inter';
+	  padding: 0px 12px;
+	  height: 32px;
+	  background: #ffffff;
+	  top: 8px;
+	  right: 8px;
+	  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.08), 0 1px 2.5px rgba(0, 0, 0, 0.1);
+	  cursor: pointer;
+	}
+  
+	button#download:hover {
+	  background: #f5f5f5;
+	  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06), 0 6px 12px -3px rgba(0, 0, 0, 0.1);
+	}
+  
+	button#download.downloading {
+	  color: #ea580c;
+	}
+  
+	button#download.done {
+	  color: #16a34a;
+	}
+  
+	::-webkit-scrollbar {
+	  width: 5px;
+	  background-color: rgb(0 0 0 / 8%);
+	}
+  
+	::-webkit-scrollbar-thumb {
+	  background-color: rgb(0 0 0 / 32%);
+	  border-radius: 4px;
+	}
+	`;
 
 	// HTML THAT IS RETURNED AS A RENDERABLE URL
 	const originalHTML = `
@@ -118,6 +138,7 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
 	  <div class="header">
 		<button class="button" id="download">Download</button>
 	  </div>
+	  <div id="content">${html}</div>
 	  </div>
 	  <script>
 	  document.getElementById('download').addEventListener('click', function() {
