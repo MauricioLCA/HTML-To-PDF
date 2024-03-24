@@ -150,10 +150,10 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 	  <style>${customCSS}</style>
 	  <div class="main">
+	  <div id="content">${html}</div>
 	  <div class="header">
 		<button class="button" id="download">Download</button>
-	  </div>
-	  <div id="content">${html}</div>
+	  </div>   
 	  </div>
 	  <script>
 	  document.getElementById('download').addEventListener('click', function() {
