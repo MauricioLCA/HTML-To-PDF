@@ -90,6 +90,7 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
   
     button#download {
       align-items: center;
+      padding: 8px 16px;
       background-color: rgb(35, 193, 218);
       border-bottom-color: rgb(255, 255, 255);
       border-bottom-left-radius: 8px;
@@ -117,21 +118,20 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
       font-feature-settings: normal;
       font-size: 14px;
       font-weight: 600;
-      margin: 20px auto; // Center the button
-      width: fit-content; // Adjust width to content
+      margin: 20px auto;
+      width: fit-content;
     }
   
 	button#download:hover {
-	  background: #f5f5f5;
-	  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06), 0 6px 12px -3px rgba(0, 0, 0, 0.1);
+	  background: #1eb6ce;
 	}
   
 	button#download.downloading {
-	  color: #ea580c;
+	  color: rgb(255, 255, 255);
 	}
   
 	button#download.done {
-	  color: #16a34a;
+	  color: rgb(255, 255, 255);
 	}
   
 	::-webkit-scrollbar {
