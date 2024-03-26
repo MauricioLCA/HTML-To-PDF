@@ -137,13 +137,11 @@ window.function = function (
     }
     `;
 
-  const originalHTML = `
+    const originalHTML = `
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <style>${customCSS}</style>
     <div class="main">
-        <div class="header">
-            <button class="button" id="download">Descargar</button>
-        </div>
+        <button class="button" id="download">Descargar</button>
     </div>
     <script>
     document.getElementById('download').addEventListener('click', function() {
@@ -152,21 +150,23 @@ window.function = function (
         element.innerHTML = \`${html}\`; // Insert dynamic HTML content here
         document.body.appendChild(element); // Add to DOM
         
-        var opt = {
-            margin: ${margin},
-            filename: '${fileName}',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: ${quality}, logging: true, dpi: 192, letterRendering: true },
-            jsPDF: { unit: 'pt', format: 'a4', orientation: '${orientation}' }
-        };
-        
-        html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
-            setTimeout(function() { document.body.removeChild(element); }, 1000); // Remove after download
-        }).save();
+        setTimeout(() => {
+            var opt = {
+                margin: ${JSON.stringify(margin)},
+                filename: '${fileName}',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: ${quality}, logging: true, dpi: 192, letterRendering: true },
+                jsPDF: { unit: 'pt', format: 'a4', orientation: '${orientation}' }
+            };
+            
+            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
+                document.body.removeChild(element); // Remove after download
+            }).save();
+        }, 100); // Delay to ensure rendering
     });
     </script>
     `;
 
-  var encodedHtml = encodeURIComponent(originalHTML);
-  return "data:text/html;charset=utf-8," + encodedHtml;
+    var encodedHtml = encodeURIComponent(originalHTML);
+    return "data:text/html;charset=utf-8," + encodedHtml;
 };
