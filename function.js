@@ -88,16 +88,6 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
  	body {
 	  margin: 0!important
    	}
-  
- 	#content {
-	  display: none;
-   	}
-
-  	@media print {
-	#content {
-	  display: block;
- 	}
- 	}
 
  	header {
 	  margin-bottom: 40px;
@@ -148,36 +138,38 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
 	  <div id="content">${html}</div>
 	  </div>
 	  <script>
-	  document.getElementById('download').addEventListener('click', function() {
-		var element = document.getElementById('content');
-		var button = this;
-		button.innerText = 'Descargando...';
-		button.className = 'downloading';
-  
-		var opt = {
-		pagebreak: { mode: ['css'], before: ${JSON.stringify(breakBefore)}, after: ${JSON.stringify(breakAfter)}, avoid: ${JSON.stringify(breakAvoid)} },
-		margin: ${margin},
-		filename: '${fileName}',
-		html2canvas: {
-		  useCORS: true,
-		  scale: ${quality}
-		},
-		jsPDF: {
-		  unit: 'px',
-		  orientation: '${orientation}',
-		  format: [${finalDimensions}],
-		  hotfixes: ['px_scaling']
-		}
-		};
-		html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
-		button.innerText = 'Descargado';
-		button.className = 'Done';
-		setTimeout(function() { 
-		  button.innerText = 'Descargar';
-		  button.className = ''; 
-		}, 2000);
-		}).save();
-	  });
+		document.getElementById('download').addEventListener('click', function() {
+		  // Crea o encuentra el div `#content`
+		  var element = document.getElementById('content');
+		  if (!element) {
+		    element = document.createElement('div');
+		    element.id = 'content';
+		    document.body.appendChild(element);
+		  }
+		  // Establece el contenido HTML justo antes de generar el PDF
+		  element.innerHTML = `${html}`;
+		
+		  var opt = {
+		    pagebreak: { mode: ['css'], before: ${JSON.stringify(breakBefore)}, after: ${JSON.stringify(breakAfter)}, avoid: ${JSON.stringify(breakAvoid)} },
+		    margin: ${margin},
+		    filename: '${fileName}',
+		    html2canvas: {
+		      useCORS: true,
+		      scale: ${quality}
+		    },
+		    jsPDF: {
+		      unit: 'px',
+		      orientation: '${orientation}',
+		      format: [${finalDimensions}],
+		      hotfixes: ['px_scaling']
+		    }
+		  };
+		  html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
+		    // Después de guardar, puedes decidir si limpias el contenido de `#content` o haces otros ajustes
+		    element.innerHTML = ''; // Limpia el contenido si es necesario
+		    // Resto del código de manejo post-descarga
+		  }).save();
+		});
 	  </script>
 	  `;
 	var encodedHtml = encodeURIComponent(originalHTML);
