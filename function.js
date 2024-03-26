@@ -87,6 +87,10 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
 	body {
 	  margin: 0!important
 	}
+
+ 	header {
+	  margin-bottom: 40px;
+	}
   
 	button#download {
  	  position: fixed;
