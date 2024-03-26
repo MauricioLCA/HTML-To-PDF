@@ -147,8 +147,8 @@ window.function = function (
     document.getElementById('download').addEventListener('click', function() {
         var element = document.createElement('div');
         element.id = 'content';
-        element.innerHTML = \`${html}\`; // Insert dynamic HTML content here
-        document.body.appendChild(element); // Add to DOM
+        element.innerHTML = \`${html}\`;
+        document.body.appendChild(element);
         
         setTimeout(() => {
             var opt = {
@@ -162,7 +162,7 @@ window.function = function (
             html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
                 document.body.removeChild(element); // Remove after download
             }).save();
-        }, 100); // Delay to ensure rendering
+        }, 100);
     });
     </script>
     `;
