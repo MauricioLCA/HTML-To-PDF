@@ -126,44 +126,43 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
     <style>${customCSS}</style>
     <div class="main">
         <div class="header">
-            <button class="button" id="download">Download</button>
+            <button class="button" id="download">Descargar</button>
         </div>
 	<script>
-	document.getElementById('download').addEventListener('click', function() {
-	    var contentElement = document.getElementById('content');
-	    contentElement.style.display = 'block'; // Ensure content is visible for pdf generation
-	    contentElement.innerHTML = \`${html}\`; // Dynamically set the HTML content
+	    document.getElementById('download').addEventListener('click', function() {
+	        var element = document.createElement('div');
+	        element.id = 'content';
+	        element.innerHTML = \`${html}\`;
+	        document.body.appendChild(element);  
+	        
+	        setTimeout(() => {
+	            
+	            var opt = {
+			          margin: ${margin},
+			          filename: '${fileName}',
+			          html2canvas: {
+			            useCORS: true,
+			            scale: ${quality}
+			          },
+	 		          jsPDF: {
+			            unit: 'px',
+			            orientation: '${orientation}',
+		          	  format: [${finalDimensions}],
+			            hotfixes: ['px_scaling']
+			            }
+	             };
 	
-	    var button = this;
-	    button.innerText = 'Downloading...';
-	    button.className = 'downloading';
-	
-	    var opt = {
-	        pagebreak: { mode: ['css'], before: ${JSON.stringify(breakBefore)}, after: ${JSON.stringify(breakAfter)}, avoid: ${JSON.stringify(breakAvoid)} },
-	        margin: ${margin},
-	        filename: \`${fileName}.pdf\`,
-	        html2canvas: {
-	          useCORS: true,
-	          scale: ${quality}
-	        },
-	        jsPDF: {
-	          unit: 'px',
-	          orientation: '${orientation}',
-	          format: ${JSON.stringify(finalDimensions)},
-	          hotfixes: ['px_scaling']
-	        }
-	    };
-	
-	    html2pdf().set(opt).from(contentElement).toPdf().get('pdf').then(function(pdf) {
-	        button.innerText = 'Done 🎉';
-	        button.className = 'done';
-	        setTimeout(function() { 
-	            button.innerText = 'Download';
-	            button.className = ''; 
-	            contentElement.style.display = 'none'; // Optionally hide content again
-	        }, 2000);
-	    }).save();
-	});
+	            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
+			          button.innerText = 'Descargado';
+			          button.className = 'done';
+			          setTimeout(function() { 
+			            button.innerText = 'Descargar';
+			            button.className = ''; 
+			          }, 2000);
+	  		      document.body.removeChild(element);
+	            }).save();
+	        }, 100);
+	    });
 	</script>
     </div>
     `;
