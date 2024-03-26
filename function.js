@@ -84,9 +84,20 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
 	);
 
 	const customCSS = `
-	body {
+
+ 	body {
 	  margin: 0!important
-	}
+   	}
+  
+ 	#content {
+	  display: none;
+   	}
+
+  	@media print {
+	#content {
+	  display: block;
+ 	}
+ 	}
 
  	header {
 	  margin-bottom: 40px;
