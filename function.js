@@ -120,6 +120,10 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
       		border-radius: 4px;
 	}
 
+	.header {
+	      	z-index: 2;
+	}
+
 	.overlay {
 	      	position: fixed;
 	      	top: 0;
