@@ -125,38 +125,47 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <style>${customCSS}</style>
     <div class="main">
-        <button class="button" id="download">Descargar</button>
-    </div>
-    <script>
-    document.getElementById('download').addEventListener('click', function() {
-        var element = document.createElement('div');
-        element.id = 'content';
-        element.innerHTML = \`${html}\`;
-        document.body.appendChild(element);
-        
-        setTimeout(() => {
+        <div class="header">
+            <button class="button" id="download">Download</button>
+        </div>
+        <script>
+        document.getElementById('download').addEventListener('click', function() {
+            var element = document.createElement('div');
+            element.id = 'content';
+            element.innerHTML = \`${html}\`; // Use backticks here for multi-line HTML
+            document.body.appendChild(element);
+
+            var button = this;
+            button.innerText = 'Downloading...';
+            button.className = 'downloading';
+
             var opt = {
-		pagebreak: { mode: ['css'], before: ${JSON.stringify(breakBefore)}, after: ${JSON.stringify(breakAfter)}, avoid: ${JSON.stringify(breakAvoid)} },
-		margin: ${margin},
-		filename: '${fileName}',
-		html2canvas: {
-		  useCORS: true,
-		  scale: ${quality}
-		},
-		jsPDF: {
-		  unit: 'px',
-		  orientation: '${orientation}',
-		  format: [${finalDimensions}],
-		  hotfixes: ['px_scaling']
-		}
-		};
-     
-            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
-                document.body.removeChild(element); // Remove after download
-            }).save();
-        }, 100);
-    });
-    </script>
+                pagebreak: { mode: ['css'], before: ${breakBefore}, after: ${breakAfter}, avoid: ${breakAvoid} },
+                margin: ${margin},
+                filename: '${fileName}.pdf',
+                html2canvas: {
+                    useCORS: true,
+                    scale: ${quality}
+                },
+                jsPDF: {
+                    unit: 'px',
+                    orientation: '${orientation}',
+                    format: ${finalDimensions},
+                    hotfixes: ['px_scaling']
+                }
+            };
+            html2pdf().set(opt).from(element).save().then(function() {
+                document.body.removeChild(element); // Remove the 'content' div after download
+                button.innerText = 'Done 🎉';
+                button.className = 'done';
+                setTimeout(function() {
+                    button.innerText = 'Download';
+                    button.className = ''; 
+                }, 2000);
+            });
+        });
+        </script>
+    </div>
     `;
 
     var encodedHtml = encodeURIComponent(originalHTML);
