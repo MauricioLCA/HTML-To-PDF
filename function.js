@@ -9,8 +9,8 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
 	// DYNAMIC VALUES
 	html = html.value ?? "No HTML set.";
 	fileName = fileName.value ?? "file";
-	format = format.value ?? "a4";
-	zoom = zoom.value ?? "1";
+	format = format.value ?? "letter";
+	zoom = zoom.value ?? "0.5";
 	orientation = orientation.value ?? "portrait";
 	margin = margin.value ?? "0";
 	breakBefore = breakBefore.value ? breakBefore.value.split(",") : [];
