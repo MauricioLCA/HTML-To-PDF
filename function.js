@@ -136,13 +136,21 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
         
         setTimeout(() => {
             var opt = {
-                margin: ${JSON.stringify(margin)},
-                filename: '${fileName}',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: ${quality}, logging: true, dpi: 192, letterRendering: true },
-                jsPDF: { unit: 'pt', format: 'a4', orientation: '${orientation}' }
-            };
-            
+		pagebreak: { mode: ['css'], before: ${JSON.stringify(breakBefore)}, after: ${JSON.stringify(breakAfter)}, avoid: ${JSON.stringify(breakAvoid)} },
+		margin: ${margin},
+		filename: '${fileName}',
+		html2canvas: {
+		  useCORS: true,
+		  scale: ${quality}
+		},
+		jsPDF: {
+		  unit: 'px',
+		  orientation: '${orientation}',
+		  format: [${finalDimensions}],
+		  hotfixes: ['px_scaling']
+		}
+		};
+     
             html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
                 document.body.removeChild(element); // Remove after download
             }).save();
