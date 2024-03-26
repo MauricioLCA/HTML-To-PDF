@@ -136,7 +136,7 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
             document.body.appendChild(element);
 
             var button = this;
-            button.innerText = 'Downloading...';
+            button.innerText = 'Descargando...';
             button.className = 'downloading';
 
             var opt = {
@@ -156,7 +156,7 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
             };
             html2pdf().set(opt).from(element).save().then(function() {
                 document.body.removeChild(element); // Remove the 'content' div after download
-                button.innerText = 'Done 🎉';
+                button.innerText = 'Descargado';
                 button.className = 'done';
                 setTimeout(function() {
                     button.innerText = 'Download';
