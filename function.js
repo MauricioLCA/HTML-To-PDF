@@ -121,8 +121,10 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
 	}
 
 	.header {
+	      	position: relative;
 	      	z-index: 2;
 	}
+
 
 	.overlay {
 	      	position: fixed;
