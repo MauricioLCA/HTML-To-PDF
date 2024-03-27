@@ -18,6 +18,7 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
     breakAvoid = breakAvoid.value ? breakAvoid.value.split(",") : [];
     quality = fidelityMap[fidelity.value] ?? 1.5;
     customDimensions = customDimensions.value ? customDimensions.value.split(",").map(Number) : null;
+    buttonColor = buttonColor.value ?? "#23c1da";
 
     // DOCUMENT DIMENSIONS
     const formatDimensions = {
@@ -97,7 +98,7 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
       		transform: translateX(-50%);
 	      	border-radius: 0.5rem;
 		padding: 8px 16px;
-  		background-color: #23c1da;
+  		background-color: ${buttonColor};
 	     	color: #fff;
 	 	font-size: 14px;
 	   	font-weight: 600;
@@ -109,7 +110,7 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
 	      	cursor: pointer;
 	}
 	button#download:hover {
-	      	background-color: #19a5bb;
+	      	background-color: darken(${buttonColor}, 20%);
 	}
 	::-webkit-scrollbar {
 	      	width: 5px;
@@ -133,11 +134,11 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
 	      	width: 100%;
 	      	height: 100%;
 	      	background-color: white;
-	      	z-index: 1; /* Debajo del botón pero encima del contenido */
+	      	z-index: 1;
 	}
 
 	#content {
-	      	z-index: 0; /* El más bajo, para que quede detrás del overlay */
+	      	z-index: 0;
 	}
 	`;
 
