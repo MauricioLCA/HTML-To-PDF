@@ -69,6 +69,34 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
     const dimensions = customDimensions || formatDimensions[format];
     const finalDimensions = dimensions.map((dimension) => Math.round(dimension / zoom));
 
+    // CONVERT BUTTON COLOR TO RGB
+    function hexToRgb(hex) {
+        let r = 0, g = 0, b = 0;
+        // 3 dígitos
+        if (hex.length == 4) {
+            r = parseInt(hex[1] + hex[1], 16);
+            g = parseInt(hex[2] + hex[2], 16);
+            b = parseInt(hex[3] + hex[3], 16);
+        }
+        // 6 dígitos
+        else if (hex.length == 7) {
+            r = parseInt(hex[1] + hex[2], 16);
+            g = parseInt(hex[3] + hex[4], 16);
+            b = parseInt(hex[5] + hex[6], 16);
+        }
+        return [r, g, b];
+    }
+
+    // DETERMINE IF BUTTON COLOR IS LIGHT OR DARK
+    function isColorLight(color) {
+        const [r, g, b] = hexToRgb(color);
+	    
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        return brightness > 155;
+    }
+
+    const textColor = isColorLight(buttonColor) ? '#000000' : '#FFFFFF';
+
     // LOG SETTINGS TO CONSOLE
     console.log(
         `Filename: ${fileName}\n` +
@@ -99,7 +127,7 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
 	      	border-radius: 0.5rem;
 		padding: 8px 16px;
   		background-color: ${buttonColor};
-	     	color: #fff;
+	        color: ${textColor};
 	 	font-size: 14px;
 	   	font-weight: 600;
 	      	line-height: 1.5rem;
@@ -148,7 +176,7 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
 	  <style>${customCSS}</style>
 	  <div class="main">
 	  <div class="header">
-		  <button class="button" id="download">Download</button>
+		  <button class="button" id="download">Descargar PDF</button>
 	  </div>
 	  <div class="overlay"></div>
 	  <div id="content">${html}</div>
@@ -157,7 +185,7 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
 	  document.getElementById('download').addEventListener('click', function() {
 		var element = document.getElementById('content');
 		var button = this;
-		button.innerText = 'Downloading...';
+		button.innerText = 'Descargando...';
 		button.className = 'downloading';
   
 		var opt = {
@@ -176,10 +204,10 @@ window.function = function(html, fileName, format, zoom, orientation, margin, br
 		}
 		};
 		html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
-		button.innerText = 'Done 🎉';
+		button.innerText = 'Descargad';
 		button.className = 'done';
 		setTimeout(function() { 
-		  button.innerText = 'Download';
+		  button.innerText = 'Descargar';
 		  button.className = ''; 
 		}, 2000);
 		}).save();
