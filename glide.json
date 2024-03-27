@@ -11,9 +11,9 @@
     {"name": "margin", "displayName": "Margin (px)", "type": "string"},
     {"name": "breakBefore", "displayName": "Page Break Before this (#ids, .classes, elements)", "type": "string"},
     {"name": "breakAfter", "displayName": "Page Break After this (#ids, .classes, elements)", "type": "string"},
-    {"name": "breakAvoid", "displayName": "Dont Brake Page on this (#ids, .classes, elements)", "type": "string"},
+    {"name": "breakAvoid", "displayName": "Dont Break Page on this (#ids, .classes, elements)", "type": "string"},
     {"name": "fidelity", "displayName": "Fidelity (low, standard, high)", "type": "string"},
-    {"name": "customDimensions", "displayName": "Custom Dimensions (e.g: 300,300)", "type": "string"},
+    {"name": "customDimensions", "displayName": "Custom Dimensions (e.g., 300,300)", "type": "string"},
     {"name": "buttonColor", "displayName": "Button Color", "type": "string"}
   ],
   "result": {"type": "string"}
